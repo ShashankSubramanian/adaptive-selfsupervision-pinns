@@ -1,17 +1,17 @@
 default: &DEFAULT
   # model
-  model: 'ffn'
+  model: 'ffn'   # feedfoward
   num_data_workers: 6
-  depth: 5
+  depth: 5  
   in_dim: 2
   out_dim: 1
-  hidden_dim: 50
+  hidden_dim: 50 # hidden dim
   # system
-  system: 'advection'
-  ic: 'sin(x)'
-  beta: 1
-  source: 0
-  diff_coef_freq: 0
+  system: 'advection' # advection, rd, poisson, posiadv
+  ic: 'sin(x)' # initial condition (sin(x) or gauss) for time-dependentproblems
+  beta: 1      # advection velocity
+  source: 0    # source
+  diff_coef_freq: 0    # for heterogeneous diffusion: see utils/misc_utils for the different diffusion/velocity vals used
   diff_coef_scale: 1
   # data/domain
   L: '2pi'
@@ -21,16 +21,16 @@ default: &DEFAULT
   n_col: 1000
   n_val: 30000
   # optimization
-  loss_style: 'sum'
+  loss_style: 'mean'  # mean or sum over all points
   loss_func: 'pinns'
-  optimizer: 'lbfgs'
-  scheduler: 'none'
-  bc_type: 'none'
+  optimizer: 'lbfgs'  # lbfgs or adam
+  scheduler: 'none'   # learning rate scheduler (none or cosine)
+  bc_type: 'none'     # none is periodic, can also be dirichlet
   lr: !!float 1.0
   max_epochs: 5000
   max_iter: 1
   batch_size: 'none'
-  patience: 10
+  patience: 10       # early stopper patience
   resample_schedule_T: 1000
   uniform_reg: 0.05
   sample_freq: 50
@@ -39,13 +39,13 @@ default: &DEFAULT
   res_momentum: 0
   kill_opt: !!bool True
   # misc
-  log_to_screen: !!bool True
+  log_to_screen: !!bool True  
   save_checkpoint: !!bool False
   seed: 0
   early_stop: !!bool True 
   plot_figs: !!bool False
   test_every_epoch: !!bool True
-  vis_loss: !!bool False
+  vis_loss: !!bool False    # visualize loss landscape with pyhessian
   all_col_points: !!bool False
   mask: !!bool False
   init_weights: !!bool False
@@ -53,8 +53,8 @@ default: &DEFAULT
   use_grad_resample: !!bool False
   track_eigv: !!bool False
   enable_obs: !!bool False
-  num_gauss: 1
-  diff_tensor_type: "iso"
+  num_gauss: 1             # how many gaussians in the source function?
+  diff_tensor_type: "iso"  # iso or aniso
   # Weights & Biases
   entity: 'pinns'
   project: 'PINNs'
@@ -79,7 +79,7 @@ poisson: &poisson
   ny: 256
   n_col: 1000
 
-poisson-asym-sched:
+poisson-tc2:
   <<: *poisson
   save_checkpoint: !!bool False
   test_every_epoch: !!bool True
@@ -102,7 +102,7 @@ poisson-asym-sched:
   seed: 0
   uniform_reg: 0
 
-poisson-asym-smooth-sched:
+poisson-tc1:
   <<: *poisson
   save_checkpoint: !!bool False
   test_every_epoch: !!bool True
@@ -151,7 +151,7 @@ poisadv: &poisadv
   all_col_points: !!bool False
   n_col: 500
 
-poisadv-asym-sched:
+poisadv-tc4:
   <<: *poisadv
   save_checkpoint: !!bool False
   test_every_epoch: !!bool True
@@ -173,7 +173,7 @@ poisadv-asym-sched:
   uniform_reg: 0
   seed: 0
 
-poisadv-asym-smooth-sched:
+poisadv-tc3:
   <<: *poisadv
   save_checkpoint: !!bool False
   test_every_epoch: !!bool True
@@ -196,38 +196,3 @@ poisadv-asym-smooth-sched:
   uniform_reg: 0
   seed: 0
   
-adv-gauss-b10:
-  <<: *DEFAULT
-  test_every_epoch: !!bool True
-  use_grad_resample: !!bool False
-  system: 'advection'
-  beta: 10
-  ic: 'gauss'
-  plot_figs: !!bool True
-  loss_style: 'mean'
-  reg: 1
-  lr: 0.1
-  max_epochs: 5000
-  resample_schedule_T: 500
-  sample_freq: 25
-  resample: !!bool True
-  all_col_points: !!bool False
-  res_momentum: 0.9
-
-
-rd-gauss-r4-k1: &rd-gauss
-  <<: *DEFAULT
-  system: 'rd'
-  ic: 'gauss'
-  rho: 4
-  kappa: 1
-  plot_figs: !!bool True
-  save_checkpoint: !!bool False
-  loss_style: 'mean'
-  reg: 1
-  lr: 0.1
-  max_epochs: 5000
-  resample_schedule_T: 500
-  sample_freq: 50
-  resample: !!bool False
-  all_col_points: !!bool False

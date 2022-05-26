@@ -1,0 +1,33 @@
+name: poisson_adaptiveg_nc1000
+entity: pinns
+project: PINNs
+program: dummy
+method: grid
+metric:
+  name: best_val_loss
+  goal: minimize
+parameters:
+  bc_type:
+    value: 'dirichlet'
+  diff_tensor_type:
+    value: 'aniso'
+  resample: 
+    value: !!bool True
+  use_grad_resample: 
+    value: !!bool True
+  plot_figs:
+    value: !!bool False
+  kill_opt:
+    value: !!bool False
+  n_col:
+    value: 1000
+  lr: 
+    values: [1, 0.1, 0.01]
+  reg:
+    value: 0.01
+  sample_freq:
+    values: [50, 100, 200]
+  res_momentum:
+    values: [0, 0.9]
+  resample_schedule_T:
+    values: [500, 1000]
