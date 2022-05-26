@@ -1,7 +1,7 @@
-## adaptive-selfsupervision-pinns
-This repository contains PyTorch code to run adaptive resampling strategies for physics informed neural networks.
+## Adaptive self-supervision for PINNs
+This repository contains PyTorch code to run adaptive resampling strategies for the self-supervision loss term in physics informed neural networks.
 
-## training
+## Run scripts
 The config options for any PDE system can be set in config/pinns.yaml. See the default config for all possible options; specific configs for the
 poisson and (steady state) advection-diffusion configs are set.
 
