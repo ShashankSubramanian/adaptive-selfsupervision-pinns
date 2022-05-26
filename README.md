@@ -17,15 +17,15 @@ the config to the required name to run any specific test-case.
 
 All parameters are highlighted in the default config. Important parameters include:
 ```
---system       PDE system (poisson, poisadv (advection-diffusion)) 
---nx           number of x points
---ny           number of y points
---force_std    std of gaussian source
---force_mean   mean of gaussian source
---lr           learning rate
---reg          PDE regularization parameter 
---n_col        number of collocation points
---n_val        number of validation points
+--system                PDE system (poisson, poisadv (advection-diffusion)) 
+--nx                    number of x points
+--ny                    number of y points
+--force_std             std of gaussian source
+--force_mean            mean of gaussian source
+--lr                    learning rate
+--reg                   PDE regularization parameter 
+--n_col                 number of collocation points
+--n_val                 number of validation points
 --use_grad_resample     boolean to use loss gradients for resampling
 --resample              boolean to switch on adaptive sampling (R or G)
 --sample_freq           frequency of sampling
