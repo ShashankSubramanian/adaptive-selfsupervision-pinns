@@ -1,0 +1,233 @@
+default: &DEFAULT
+  # model
+  model: 'ffn'
+  num_data_workers: 6
+  depth: 5
+  in_dim: 2
+  out_dim: 1
+  hidden_dim: 50
+  # system
+  system: 'advection'
+  ic: 'sin(x)'
+  beta: 1
+  source: 0
+  diff_coef_freq: 0
+  diff_coef_scale: 1
+  # data/domain
+  L: '2pi'
+  T: !!float 1.0
+  nx: 256
+  nt: 100
+  n_col: 1000
+  n_val: 30000
+  # optimization
+  loss_style: 'sum'
+  loss_func: 'pinns'
+  optimizer: 'lbfgs'
+  scheduler: 'none'
+  bc_type: 'none'
+  lr: !!float 1.0
+  max_epochs: 5000
+  max_iter: 1
+  batch_size: 'none'
+  patience: 10
+  resample_schedule_T: 1000
+  uniform_reg: 0.05
+  sample_freq: 50
+  reg: 1
+  warmstart: 0
+  res_momentum: 0
+  kill_opt: !!bool True
+  # misc
+  log_to_screen: !!bool True
+  save_checkpoint: !!bool False
+  seed: 0
+  early_stop: !!bool True 
+  plot_figs: !!bool False
+  test_every_epoch: !!bool True
+  vis_loss: !!bool False
+  all_col_points: !!bool False
+  mask: !!bool False
+  init_weights: !!bool False
+  resample: !!bool False
+  use_grad_resample: !!bool False
+  track_eigv: !!bool False
+  enable_obs: !!bool False
+  num_gauss: 1
+  diff_tensor_type: "iso"
+  # Weights & Biases
+  entity: 'pinns'
+  project: 'PINNs'
+  log_to_wandb: !!bool False
+
+poisson: &poisson
+  <<: *DEFAULT
+  save_checkpoint: !!bool False
+  all_col_points: !!bool False
+  resample: !!bool True
+  resample_schedule_T: 500
+  sample_freq: 50
+  max_epochs: 1000
+  plot_figs: !!bool True
+  loss_style: 'mean'
+  system: 'poisson'
+  force_std: !!float 0.1
+  force_mean: !!float 0.5
+  Lx: !!float 1.0
+  Ly: !!float 1.0
+  nx: 256
+  ny: 256
+  n_col: 1000
+
+poisson-asym-sched:
+  <<: *poisson
+  save_checkpoint: !!bool False
+  test_every_epoch: !!bool True
+  use_grad_resample: !!bool False
+  plot_figs: !!bool True
+  bc_type: 'dirichlet'
+  diff_tensor_type: "aniso"
+  res_momentum: 0
+  loss_style: 'mean'
+  reg: 0.0001
+  lr: 0.01
+  max_epochs: 5000
+  force_std: !!float 0.01
+  resample_schedule_T: 1000
+  sample_freq: 100
+  resample: !!bool True
+  all_col_points: !!bool False
+  n_col: 1000
+  n_val: 30000
+  seed: 0
+  uniform_reg: 0
+
+poisson-asym-smooth-sched:
+  <<: *poisson
+  save_checkpoint: !!bool False
+  test_every_epoch: !!bool True
+  use_grad_resample: !!bool True
+  plot_figs: !!bool True
+  bc_type: 'dirichlet'
+  diff_tensor_type: "aniso"
+  res_momentum: 0.9
+  loss_style: 'mean'
+  reg: 0.0001
+  lr: 1
+  max_epochs: 5000
+  force_std: !!float 0.1
+  resample_schedule_T: 500
+  sample_freq: 100
+  resample: !!bool True
+  all_col_points: !!bool False
+  n_col: 1000
+  seed: 0
+  uniform_reg: 0
+
+poisadv: &poisadv
+  <<: *DEFAULT
+  save_checkpoint: !!bool False
+  test_every_epoch: !!bool True
+  use_grad_resample: !!bool True
+  bc_type: 'dirichlet'
+  diff_tensor_type: "aniso"
+  vel_type: "aniso"
+  plot_figs: !!bool True
+  system: 'poisadv'
+  Lx: !!float 1.0
+  Ly: !!float 1.0
+  nx: 256
+  ny: 256
+  res_momentum: 0.9
+  loss_style: 'mean'
+  reg: 0.001
+  lr: 0.1
+  max_epochs: 5000
+  force_std: !!float 0.01
+  force_mean: !!float 0.5
+  resample_schedule_T: 500
+  sample_freq: 25
+  resample: !!bool True
+  all_col_points: !!bool False
+  n_col: 500
+
+poisadv-asym-sched:
+  <<: *poisadv
+  save_checkpoint: !!bool False
+  test_every_epoch: !!bool True
+  use_grad_resample: !!bool True
+  bc_type: 'dirichlet'
+  diff_tensor_type: "aniso"
+  vel_type: "aniso"
+  plot_figs: !!bool True
+  res_momentum: 0.9
+  loss_style: 'mean'
+  reg: 0.0001
+  lr: 1
+  max_epochs: 5000
+  resample_schedule_T: 1000
+  sample_freq: 50
+  resample: !!bool True
+  all_col_points: !!bool False
+  n_col: 1000
+  uniform_reg: 0
+  seed: 0
+
+poisadv-asym-smooth-sched:
+  <<: *poisadv
+  save_checkpoint: !!bool False
+  test_every_epoch: !!bool True
+  use_grad_resample: !!bool True
+  bc_type: 'dirichlet'
+  diff_tensor_type: "aniso"
+  vel_type: "aniso"
+  plot_figs: !!bool True
+  res_momentum: 0.9
+  loss_style: 'mean'
+  reg: 0.0001
+  lr: 0.1
+  force_std: !!float 0.1
+  max_epochs: 5000
+  resample_schedule_T: 500
+  sample_freq: 100
+  resample: !!bool True
+  all_col_points: !!bool False
+  n_col: 1000
+  uniform_reg: 0
+  seed: 0
+  
+adv-gauss-b10:
+  <<: *DEFAULT
+  test_every_epoch: !!bool True
+  use_grad_resample: !!bool False
+  system: 'advection'
+  beta: 10
+  ic: 'gauss'
+  plot_figs: !!bool True
+  loss_style: 'mean'
+  reg: 1
+  lr: 0.1
+  max_epochs: 5000
+  resample_schedule_T: 500
+  sample_freq: 25
+  resample: !!bool True
+  all_col_points: !!bool False
+  res_momentum: 0.9
+
+
+rd-gauss-r4-k1: &rd-gauss
+  <<: *DEFAULT
+  system: 'rd'
+  ic: 'gauss'
+  rho: 4
+  kappa: 1
+  plot_figs: !!bool True
+  save_checkpoint: !!bool False
+  loss_style: 'mean'
+  reg: 1
+  lr: 0.1
+  max_epochs: 5000
+  resample_schedule_T: 500
+  sample_freq: 50
+  resample: !!bool False
+  all_col_points: !!bool False

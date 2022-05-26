@@ -2,12 +2,16 @@
 This repository contains PyTorch code to run adaptive resampling strategies for physics informed neural networks.
 
 ## training
-The config options for any PDE system can be set in config/pinns.yaml
-Runs can be logged to weights and biases if the wandb option is set to true
+The config options for any PDE system can be set in config/pinns.yaml. See the default config for all possible options; specific configs for the
+poisson and (steady state) advection-diffusion configs are set.
+
+We use weights and biases to log all error metrics and visualizations (set the wandb option to true in the config)
+
 example training launch script:
 ```
-python train.py --config poisson
+python train.py --config poisson-asym-sched --run_num 0
 ```
-See run.sh and --help for other run options
+
+Inference is performed at the end of training. See --help for other run options.
 
 
