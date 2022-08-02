@@ -1,5 +1,6 @@
 ## Adaptive self-supervision for PINNs
 This repository contains PyTorch code to run adaptive resampling strategies for the self-supervision loss term in physics informed neural networks. The self-supervision data (collocation) points are resampled using the gradient of the loss and scheduled using a cosine scheduler that balances adaptivity with uniform sampling at user-defined intervals during training. For more details, see the [article](https://arxiv.org/abs/2207.04084)
+
 ![reconstruction](assets/poisson_tc2_recon.png)
 
 ## Run scripts
