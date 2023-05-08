@@ -1,5 +1,5 @@
 ## Adaptive self-supervision for PINNs
-This repository contains PyTorch code to run adaptive resampling strategies for the self-supervision loss term in physics informed neural networks. The self-supervision data (collocation) points are resampled using the gradient of the loss and scheduled using a cosine scheduler that balances adaptivity with uniform sampling at user-defined intervals during training. For more details, see the [article](https://arxiv.org/abs/2207.04084)
+This repository contains PyTorch code to run adaptive resampling strategies for the self-supervision loss term in physics informed neural networks. The self-supervision data (collocation) points are resampled using the gradient of the loss and scheduled using a cosine scheduler that balances adaptivity with uniform sampling at user-defined intervals during training. 
 
 ![reconstruction](assets/poisson_tc2_recon.png)
 
@@ -35,14 +35,3 @@ The four test-case configs are included in the config/pinns.yaml file. The confi
 ```
 Other parameters are defaulted. See the default config for the full list. Inference is performed at the end of training. See --help for other run options. To run hyperparameter sweeps, we use wandb's grid sweep configuration. See sweeps/ for an example hyperparameter sweep config.
 
-## Reference
-If you find this work useful, please cite using the following
-```
-@article{subramanian2022adaptive,
-  title={Adaptive Self-supervision Algorithms for Physics-informed Neural Networks},
-  author={Subramanian, Shashank and Kirby, Robert M and Mahoney, Michael W and Gholami, Amir},
-  journal={arXiv e-prints},
-  pages={arXiv--2207},
-  year={2022}
-}
-```
